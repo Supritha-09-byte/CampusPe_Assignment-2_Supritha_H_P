@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen AI Chat</title>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="btn btn-new-chat w-100 d-flex align-items-center gap-2" id="newChatBtn">
+                    <i class="fa-solid fa-plus"></i> New Chat
+                </button>
+            </div>
+            
+            <div class="sidebar-history nice-scrollbar">
+                <p class="history-label">Recent</p>
+                <ul class="history-list list-unstyled" id="historyList">
+                    <li class="history-item"><i class="fa-regular fa-message"></i> CSS Flexbox Layout Tricks</li>
+                    <li class="history-item"><i class="fa-regular fa-message"></i> JavaScript Promises Guide</li>
+                    <li class="history-item"><i class="fa-regular fa-message"></i> Bootstrap 5 Grid System</li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar bg-gradient-user">
+                        <span>S</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">Supritha H P</span>
+                        <span class="user-plan">Free Plan</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header (Mobile Hamburger & Theme Toggle) -->
+            <header class="chat-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-icon d-md-none" id="hamburgerMenu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h5 class="m-0 fw-semibold d-md-none">Gen AI</h5>
+                </div>
+                <div>
+                    <button class="btn btn-icon" id="themeToggle" title="Toggle Dark/Light Mode">
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <section class="chat-area nice-scrollbar" id="chatArea">
+                
+                <!-- Welcome Screen -->
+                <div class="welcome-screen text-center" id="welcomeScreen">
+                    <div class="welcome-logo mb-4">
+                        <i class="fa-solid fa-robot fa-4x ai-icon-gradient"></i>
+                    </div>
+                    <h1 class="welcome-title mb-5">How can I help you today?</h1>
+                    
+                    <!-- Suggestion Cards Grid -->
+                    <div class="suggestion-grid container">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-12 col-md-6 col-lg-5">
+                                <div class="suggestion-card card h-100 text-start p-3">
+                                    <div class="card-icon mb-2"><i class="fa-solid fa-code text-primary"></i></div>
+                                    <h6 class="card-title fw-semibold m-0">Write code</h6>
+                                    <p class="card-text text-muted small mt-1 mb-0">Help me write a Python script for automation</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-5">
+                                <div class="suggestion-card card h-100 text-start p-3">
+                                    <div class="card-icon mb-2"><i class="fa-solid fa-pen-nib text-success"></i></div>
+                                    <h6 class="card-title fw-semibold m-0">Summarize</h6>
+                                    <p class="card-text text-muted small mt-1 mb-0">Summarize the main points of CSS Grid</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-5">
+                                <div class="suggestion-card card h-100 text-start p-3">
+                                    <div class="card-icon mb-2"><i class="fa-solid fa-lightbulb text-warning"></i></div>
+                                    <h6 class="card-title fw-semibold m-0">Brainstorm</h6>
+                                    <p class="card-text text-muted small mt-1 mb-0">Give me ideas for a final year project</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-5">
+                                <div class="suggestion-card card h-100 text-start p-3">
+                                    <div class="card-icon mb-2"><i class="fa-solid fa-language text-danger"></i></div>
+                                    <h6 class="card-title fw-semibold m-0">Translate</h6>
+                                    <p class="card-text text-muted small mt-1 mb-0">Translate this text to Spanish</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages Container (Empty Initially) -->
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Messages will be injected here via JS -->
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator-wrapper" id="typingIndicator" style="display: none;">
+                    <div class="message ai-message">
+                        <div class="message-avatar">
+                            <div class="avatar bg-gradient-ai">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input Area -->
+            <footer class="input-area-container">
+                <div class="input-wrapper shadow-sm">
+                    <button class="btn btn-icon btn-attach" title="Attach file">
+                        <i class="fa-solid fa-paperclip"></i>
+                    </button>
+                    
+                    <textarea 
+                        id="messageInput" 
+                        class="form-control message-input nice-scrollbar" 
+                        placeholder="Message Gen AI..." 
+                        rows="1" 
+                    ></textarea>
+                    
+                    <button class="btn btn-send" id="sendBtn" disabled title="Send message">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="footer-tools d-flex justify-content-center align-items-center mt-2 gap-3 text-muted small">
+                    <span>AI can make mistakes. Consider verifying important information.</span>
+                    <button class="btn btn-sm btn-link text-muted p-0 text-decoration-none" id="exportChatBtn" title="Export Chat">
+                        <i class="fa-solid fa-download"></i> Export
+                    </button>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Audio Effects for Send/Receive message (Bonus) -->
+    <audio id="sendSound" src="https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3" preload="auto"></audio>
+    <audio id="receiveSound" src="https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3" preload="auto"></audio>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Marked.js for Markdown parsing (Bonus Formatter) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/chat.js"></script>
+</body>
+</html>
